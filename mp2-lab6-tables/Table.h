@@ -37,7 +37,7 @@ public:
 	virtual ~Table();
 	virtual bool isFull() = 0;
 	virtual bool findRecord(TKey key) = 0;
-	virtual bool insertRecord(Record r) = 0;
+	virtual void insertRecord(Record r) = 0;
 	virtual void deleteRecord(TKey key) = 0;
 
 	virtual void resetIterator() = 0;

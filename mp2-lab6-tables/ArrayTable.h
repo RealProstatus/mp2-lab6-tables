@@ -3,7 +3,7 @@
 #include"Table.h"
 
 template<class TKey, class TValue>
-class ArrayTable : public Table {
+class ArrayTable : public Table<TKey,TValue> {
 protected:
 	int size;
 	Record<TKey, TValue>* ptrRec;
