@@ -43,7 +43,7 @@ public:
 	virtual void resetIterator() = 0;
 	virtual void goNext() = 0;
 	virtual void isEnd() = 0;
-	virtual Record getCurrentRecord() = 0;
+	virtual Record<TKey,TValue> getCurrentRecord() = 0;
 
 	friend std::ostream& operator<<(std::ostream& out, Table& t) {
 		for (t.resetIterator(); !(t.isEnd()); t.goNext()) {
@@ -52,4 +52,5 @@ public:
 
 		return out;
 	}
+
 };

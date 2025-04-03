@@ -47,10 +47,13 @@ public:
 	void reset() {
 		currRec = 0;
 	}
+
 	void goNext() {
 		currRec++;
 	}
+
 	bool isEnd() {
 		return currRec == DataCount;
 	}
+
 };
