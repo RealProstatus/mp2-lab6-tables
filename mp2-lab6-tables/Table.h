@@ -9,8 +9,12 @@ struct Record {
 	TValue val;
 
 	friend std::ostream& operator<<(std::ostream& out, const Record& r) {
-		out << "[" + key + "]: " + val;
+		out << "[" << key << "]: " << val;
 		return out;
+	}
+
+	bool operator==(const Record<TKey,TValue> r) {
+		return this->key == r->key;
 	}
 };
 
@@ -34,7 +38,7 @@ public:
 		return DataCount == 0;
 	}
 
-	virtual ~Table();
+	virtual ~Table() = default;
 	virtual bool isFull() = 0;
 	virtual bool findRecord(TKey key) = 0;
 	virtual void insertRecord(Record r) = 0;
@@ -42,7 +46,7 @@ public:
 
 	virtual void resetIterator() = 0;
 	virtual void goNext() = 0;
-	virtual void isEnd() = 0;
+	virtual bool isEnd() = 0;
 	virtual Record<TKey,TValue> getCurrentRecord() = 0;
 
 	friend std::ostream& operator<<(std::ostream& out, Table& t) {

@@ -54,26 +54,30 @@ public:
     return false;
   }
 
-  void resetIterator() {
+  void resetIterator() override {
     currRec = 0;
     while ((ptrRec[currRec] == free || ptrRec[currRec] == del)
       && currRec < size)
-      curr++;
+      currRec++;
   }
 
-  void goNext() {
+  void goNext() override {
     curr++;
     while ((ptrRec[currRec] == free || ptrRec[currRec] == del)
       && currRec < size)
-      curr++;
+      currRec++;
   }
 
-  void isEnd() const {
-    return curr == size;
+  bool isEnd() override {
+    return currRec == size;
   }
 
   Record<TKey, TValue> getCurrentRecord() {
     return ptrRec[currRec];
+  }
+
+  ~ArrayHashTable() {
+    delete[] ptrRec;
   }
 
 };

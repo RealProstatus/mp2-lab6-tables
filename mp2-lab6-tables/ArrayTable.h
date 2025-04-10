@@ -31,7 +31,7 @@ public:
 	}
 
 	~ArrayTable() {
-		delete ptrRec;
+		delete[] ptrRec;
 	}
 
 	bool isFull() {
@@ -44,15 +44,15 @@ public:
 		else throw OutOfRange();
 	}
 
-	void reset() {
+	void resetIterator() override {
 		currRec = 0;
 	}
 
-	void goNext() {
+	void goNext() override {
 		currRec++;
 	}
 
-	bool isEnd() {
+	bool isEnd() override {
 		return currRec == DataCount;
 	}
 

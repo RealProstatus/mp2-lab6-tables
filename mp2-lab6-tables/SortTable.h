@@ -16,7 +16,7 @@ public:
         end = mid - 1;
       else {
         if (ptrRec[mid].key < key)
-          start = mid + 1;
+          begin = mid + 1;
         else {
           currRec = mid;
           return true;
@@ -34,11 +34,11 @@ public:
     if (findRecord(r.key))
       throw RecordAlreadyExist();
     else {
-      for (int i = DataCount; i < currRec; i++) {
+      for (int i = DataCount; i < currRec; i--) {
         ptrRec[i] = ptrRec[i - 1];
         Efficiency++;
       }
-      ptrRec[currRec] = r.val;
+      ptrRec[currRec] = r;
     }
 
     DataCount++;

@@ -5,7 +5,7 @@
 template<class TKey, class TValue>
 class ScanTable : public ArrayTable<TKey,TValue> {
 public:
-	bool findRecord(Tkey key) {
+	bool findRecord(TKey key) {
 		for (int i = 0; i < DataCount; i++) {
 			if (key == ptrRec[i].key) {
 				currRec = i;
@@ -32,7 +32,7 @@ public:
 
 	void deleteRecord(TKey key) {
 		if (findRecord(key)) {
-			ptrRec[currRec] = pRec[DataCount - 1];
+			ptrRec[currRec] = ptrRec[DataCount - 1];
 			DataCount--;
 		}
 		else return;
