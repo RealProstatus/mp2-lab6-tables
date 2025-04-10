@@ -54,6 +54,29 @@ public:
     return false;
   }
 
+  bool insertRecord(Record<TKey, TValue> r) {
+    if (isFull())
+      throw InsertInFullTable();
+
+    if (findRecord(r.key))
+      throw RecordAlreadyExist();
+    else {
+      ptrRec[currRec] = r;
+      DataCount++;
+      Efficiency++;
+      return true;
+    }
+  }
+
+  void deleteRecord(TKey key) {
+    if (findRecord(key)) {
+      DataCount--;
+      Efficiency++;
+      ptrRec[currRec] = del;
+    }
+    else return;
+  }
+
   void resetIterator() override {
     currRec = 0;
     while ((ptrRec[currRec] == free || ptrRec[currRec] == del)

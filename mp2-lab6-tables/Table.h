@@ -41,7 +41,7 @@ public:
 	virtual ~Table() = default;
 	virtual bool isFull() = 0;
 	virtual bool findRecord(TKey key) = 0;
-	virtual void insertRecord(Record r) = 0;
+	virtual void insertRecord(Record<TKey,TValue> r) = 0;
 	virtual void deleteRecord(TKey key) = 0;
 
 	virtual void resetIterator() = 0;
@@ -49,7 +49,7 @@ public:
 	virtual bool isEnd() = 0;
 	virtual Record<TKey,TValue> getCurrentRecord() = 0;
 
-	friend std::ostream& operator<<(std::ostream& out, Table& t) {
+	friend std::ostream& operator<<(std::ostream& out, Table<TKey,TValue>& t) {
 		for (t.resetIterator(); !(t.isEnd()); t.goNext()) {
 			out << t.getCurrentRecord() << std::endl;
 		}

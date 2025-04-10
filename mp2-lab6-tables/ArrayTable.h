@@ -38,7 +38,7 @@ public:
 		return DataCount == size;
 	}
 
-	Record getCurrentRecord() {
+	Record<TKey,TValue> getCurrentRecord() {
 		if (currRec >= 0 && currRec < DataCount)
 			return ptrRec[currRec];
 		else throw OutOfRange();
