@@ -30,12 +30,14 @@ public:
 
 		this->ptrRec[this->currRec] = r;
 		this->DataCount++;
+		this->Efficiency++;
 	}
 
 	void deleteRecord(TKey key) {
 		if (findRecord(key)) {
 			this->ptrRec[this->currRec] = this->ptrRec[this->DataCount - 1];
 			this->DataCount--;
+			this->Efficiency++;
 		}
 		else return;
 	}

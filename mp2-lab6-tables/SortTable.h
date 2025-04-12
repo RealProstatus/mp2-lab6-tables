@@ -41,6 +41,7 @@ public:
         this->Efficiency++;
       }
       this->ptrRec[this->currRec] = r;
+      this->Efficiency++;
     }
 
     this->DataCount++;
@@ -54,6 +55,7 @@ public:
       }
 
       this->DataCount--;
+      this->Efficiency++;
     }
     else return;
   }

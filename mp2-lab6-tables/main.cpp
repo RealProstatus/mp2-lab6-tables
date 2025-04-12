@@ -42,10 +42,10 @@ int main() {
 	ScanTable<int, std::string> scanTable(10);
 	SortTable<int, std::string> sortTable(10);
 	ArrayHashTable<int, std::string> arrayHashTable(10, 3);
-	//ListHashTable<int, std::string> listHashTable(10);
+	ListHashTable<int, std::string> listHashTable(10);
 
 	testTable(scanTable, "ScanTable");
 	testTable(sortTable, "SortTable");
 	testTable(arrayHashTable, "ArrayHashTable");
-	//testTable(listHashTable, "ListHashTable");
+	testTable(listHashTable, "ListHashTable");
 }

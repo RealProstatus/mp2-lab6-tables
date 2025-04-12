@@ -26,7 +26,7 @@ public:
   }
 
   bool findRecord(TKey key) {
-    currList = hashFunc(key);
+    currList = this->hashFunc(key);
     bool res = false;
 
     for (currI = pList[currList].begin(); currI != pList[currList].end(); currI++) {
@@ -73,12 +73,13 @@ public:
   }
 
   void goNext() override {
-      if (currList >= this->size) return;
       ++currI;
-      while (currI == pList[currList].end()) {
-          currList++;
-          if (currList >= size) return;
-          currI = pList[currList].begin();
+      // Если текущий список закончился, ищем следующий непустой список
+      while (currList < this->size && currI == pList[currList].end()) {
+          ++currList;
+          if (currList < this->size) {
+              currI = pList[currList].begin();
+          }
       }
   }
 
