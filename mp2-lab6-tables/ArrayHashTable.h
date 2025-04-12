@@ -12,7 +12,7 @@ protected:
 
   Record<TKey, TValue> free, del;   //designation of an empty and deleted record
 public:
-  ArrayHashTable(int size = 32, int step = 5) {
+  ArrayHashTable(int size = 32, int step = 5): HashTable<TKey,TValue>(size) {
     //TODO feature: добавить проверку взаимной простоты размера и шага
 
     free.key = -1;
@@ -85,7 +85,7 @@ public:
   }
 
   void goNext() override {
-    curr++;
+    currRec++;
     while ((ptrRec[currRec] == free || ptrRec[currRec] == del)
       && currRec < size)
       currRec++;

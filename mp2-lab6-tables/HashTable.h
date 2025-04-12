@@ -7,7 +7,7 @@ class HashTable : public Table<TKey, TValue> {
 protected:
   int size;//size of array
 
-  HashTable(int size = 32): Table() {
+  HashTable(int size = 32): Table<TKey,TValue>() {
     this->size = size;
   }
 

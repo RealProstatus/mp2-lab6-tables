@@ -8,12 +8,12 @@ struct Record {
 	TKey key;
 	TValue val;
 
-	friend std::ostream& operator<<(std::ostream& out, const Record& r) {
-		out << "[" << key << "]: " << val;
+	friend std::ostream& operator<<(std::ostream& out, const Record<TKey,TValue>& r) {
+		out << "[" << r.key << "]: " << r.val;
 		return out;
 	}
 
-	bool operator==(const Record<TKey,TValue> r) {
+	bool operator==(const Record<TKey,TValue>& r) const {
 		return this->key == r->key;
 	}
 };

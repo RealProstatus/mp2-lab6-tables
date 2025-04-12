@@ -12,7 +12,7 @@ protected:
   std::list<Record<TKey, TValue>>::iterator currI;
 
 public:
-  ListHashTable(int size = 32) : HashTable(size) {
+  ListHashTable(int size = 32) : HashTable<TKey,TValue>(size) {
     pList = new std::list<Record<TKey, TValue>>[this->size];
     currList = -1;
   }
@@ -22,12 +22,7 @@ public:
   }
 
   bool isFull() {
-    try {
-
-    }
-    catch (...) {
-
-    }
+    return false;
   }
 
   bool findRecord(TKey key) {

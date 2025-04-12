@@ -18,7 +18,7 @@ public:
 		return false;
 	}
 
-	void insertRecord(Record r) {
+	void insertRecord(Record<TKey, TValue> r) {
 		if (isFull()) {
 			throw InsertInFullTable();
 		}

@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -131,6 +131,7 @@
     <ClInclude Include="ArrayTable.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="HashTable.h" />
+    <ClInclude Include="ListHashTable.h" />
     <ClInclude Include="ScanTable.h" />
     <ClInclude Include="SortTable.h" />
     <ClInclude Include="Table.h" />

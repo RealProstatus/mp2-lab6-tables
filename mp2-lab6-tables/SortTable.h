@@ -23,7 +23,7 @@ public:
         }
       }
     }
-    currRec = start;
+    currRec = begin;
     return false;
   }
 

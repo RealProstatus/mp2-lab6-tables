@@ -10,7 +10,7 @@ protected:
 
 	int currRec;
 public:
-	ArrayTable(int size = 32) : Table() {
+	ArrayTable(int size = 32) : Table<TKey,TValue>() {
 		if (size >= 0) {
 			this->size = size;
 			ptrRec = new Record<TKey, TValue>[size];
