@@ -5,53 +5,55 @@
 template<class TKey, class TValue>
 class SortTable : public ArrayTable<TKey,TValue> {
 public:
+  SortTable(int size = 32): ArrayTable<TKey,TValue>(size) { }
+
   bool findRecord(TKey key) {
     //binary search
-    int begin = 0, end = DataCount - 1;
+    int begin = 0, end = this->DataCount - 1;
     while (begin <= end) {
-      Efficiency++;
+      this->Efficiency++;
       int mid = (begin + end) / 2;
 
-      if (ptrRec[mid].key > key)
+      if (this->ptrRec[mid].key > key)
         end = mid - 1;
       else {
-        if (ptrRec[mid].key < key)
+        if (this->ptrRec[mid].key < key)
           begin = mid + 1;
         else {
-          currRec = mid;
+          this->currRec = mid;
           return true;
         }
       }
     }
-    currRec = begin;
+    this->currRec = begin;
     return false;
   }
 
-  void insertRecord(Record r) {
-    if (isFull())
+  void insertRecord(Record<TKey, TValue> r) {
+    if (this->isFull())
       throw InsertInFullTable();
 
     if (findRecord(r.key))
       throw RecordAlreadyExist();
     else {
-      for (int i = DataCount; i < currRec; i--) {
-        ptrRec[i] = ptrRec[i - 1];
-        Efficiency++;
+      for (int i = this->DataCount; i < this->currRec; i--) {
+        this->ptrRec[i] = this->ptrRec[i - 1];
+        this->Efficiency++;
       }
-      ptrRec[currRec] = r;
+      this->ptrRec[this->currRec] = r;
     }
 
-    DataCount++;
+    this->DataCount++;
   }
 
   void deleteRecord(TKey key) {
     if (findRecord(key)) {
-      for (int i = currRec + 1; i < DataCount; i++) {
-        ptrRec[i - 1] = ptrRec[i];
-        Efficiency++;
+      for (int i = this->currRec + 1; i < this->DataCount; i++) {
+        this->ptrRec[i - 1] = this->ptrRec[i];
+        this->Efficiency++;
       }
 
-      DataCount--;
+      this->DataCount--;
     }
     else return;
   }

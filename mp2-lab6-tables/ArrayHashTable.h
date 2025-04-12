@@ -28,79 +28,78 @@ public:
   }
 
   bool isFull() {
-    return DataCount == size;
+    return this->DataCount == this->size;
   }
 
   bool findRecord(TKey key) {
-    currRec = hashFunc(key);
+    currRec = this->hashFunc(key);
 
     int tmp = -1;
-    for (int i = 0; i < size; i++) {
-      Efficiency++;
+    for (int i = 0; i < this->size; i++) {
+      this->Efficiency++;
 
-      if (ptrRec[currRec] == free)
+      if (this->ptrRec[this->currRec] == free)
         break;
       else
-        if (ptrRec[currRec] == del && tmp == -1)
-          tmp = currRec;
+        if (this->ptrRec[this->currRec] == del && tmp == -1)
+          tmp = this->currRec;
         else
-          if (ptrRec[currRec].key == key)
+          if (this->ptrRec[this->currRec].key == key)
             return true;
-      currRec = (currRec + step) % size;
+      this->currRec = (this->currRec + step) % this->size;
     }
 
     if (tmp != -1)
-      currRec = tmp;
+        this->currRec = tmp;
     return false;
   }
 
-  bool insertRecord(Record<TKey, TValue> r) {
+  void insertRecord(Record<TKey, TValue> r) {
     if (isFull())
       throw InsertInFullTable();
 
     if (findRecord(r.key))
       throw RecordAlreadyExist();
     else {
-      ptrRec[currRec] = r;
-      DataCount++;
-      Efficiency++;
-      return true;
+      this->ptrRec[this->currRec] = r;
+      this->DataCount++;
+      this->Efficiency++;
     }
   }
 
   void deleteRecord(TKey key) {
     if (findRecord(key)) {
-      DataCount--;
-      Efficiency++;
-      ptrRec[currRec] = del;
+      this->DataCount--;
+      this->Efficiency++;
+      this->ptrRec[this->currRec] = del;
     }
     else return;
   }
 
   void resetIterator() override {
-    currRec = 0;
-    while ((ptrRec[currRec] == free || ptrRec[currRec] == del)
-      && currRec < size)
-      currRec++;
+    this->currRec = 0;
+    while ((this->ptrRec[this->currRec] == free || this->ptrRec[this->currRec] == del)
+      && this->currRec < this->size)
+      this->currRec++;
   }
 
   void goNext() override {
-    currRec++;
-    while ((ptrRec[currRec] == free || ptrRec[currRec] == del)
-      && currRec < size)
-      currRec++;
+    this->currRec++;
+    while ((this->ptrRec[this->currRec] == free || this->ptrRec[this->currRec] == del)
+      && this->currRec < this->size)
+      this->currRec++;
   }
 
   bool isEnd() override {
-    return currRec == size;
+    return this->currRec == this->size;
   }
 
   Record<TKey, TValue> getCurrentRecord() {
-    return ptrRec[currRec];
+    return this->ptrRec[this->currRec];
   }
 
   ~ArrayHashTable() {
-    delete[] ptrRec;
+    delete[] this->ptrRec;
   }
 
 };

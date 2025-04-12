@@ -26,8 +26,8 @@ public:
 		for (int i = 0; i < size; i++) {
 			ptrRec[i] = t.ptrRec[i];
 		}
-		DataCount = t.DataCount;
-		Efficiency = t.Efficiency;
+		this->DataCount = t.DataCount;
+		this->Efficiency = t.Efficiency;
 	}
 
 	~ArrayTable() {
@@ -35,11 +35,11 @@ public:
 	}
 
 	bool isFull() {
-		return DataCount == size;
+		return this->DataCount == size;
 	}
 
 	Record<TKey,TValue> getCurrentRecord() {
-		if (currRec >= 0 && currRec < DataCount)
+		if (currRec >= 0 && currRec < this->DataCount)
 			return ptrRec[currRec];
 		else throw OutOfRange();
 	}
@@ -53,7 +53,7 @@ public:
 	}
 
 	bool isEnd() override {
-		return currRec == DataCount;
+		return currRec == this->DataCount;
 	}
 
 };

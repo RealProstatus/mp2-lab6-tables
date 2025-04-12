@@ -14,7 +14,7 @@ struct Record {
 	}
 
 	bool operator==(const Record<TKey,TValue>& r) const {
-		return this->key == r->key;
+		return this->key == r.key;
 	}
 };
 

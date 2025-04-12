@@ -5,35 +5,37 @@
 template<class TKey, class TValue>
 class ScanTable : public ArrayTable<TKey,TValue> {
 public:
+	ScanTable(int size = 32): ArrayTable<TKey,TValue>(size) { }
+
 	bool findRecord(TKey key) {
-		for (int i = 0; i < DataCount; i++) {
-			if (key == ptrRec[i].key) {
-				currRec = i;
-				Efficiency++;
+		for (int i = 0; i < this->DataCount; i++) {
+			if (key == this->ptrRec[i].key) {
+				this->currRec = i;
+				this->Efficiency++;
 				return true;
 			}
 		}
 
-		currRec = DataCount;
+		this->currRec = this->DataCount;
 		return false;
 	}
 
 	void insertRecord(Record<TKey, TValue> r) {
-		if (isFull()) {
+		if (this->isFull()) {
 			throw InsertInFullTable();
 		}
 
 		if (findRecord(r.key)) 
 			throw RecordAlreadyExist();
 
-		ptrRec[currRec] = r;
-		DataCount++;
+		this->ptrRec[this->currRec] = r;
+		this->DataCount++;
 	}
 
 	void deleteRecord(TKey key) {
 		if (findRecord(key)) {
-			ptrRec[currRec] = ptrRec[DataCount - 1];
-			DataCount--;
+			this->ptrRec[this->currRec] = this->ptrRec[this->DataCount - 1];
+			this->DataCount--;
 		}
 		else return;
 	}

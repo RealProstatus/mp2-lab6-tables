@@ -9,7 +9,7 @@ class ListHashTable : public HashTable<TKey, TValue> {
 protected:
   std::list<Record<TKey, TValue>>* pList;
   int currList;
-  std::list<Record<TKey, TValue>>::iterator currI;
+  typename std::list<Record<TKey, TValue>>::iterator currI;
 
 public:
   ListHashTable(int size = 32) : HashTable<TKey,TValue>(size) {
@@ -31,7 +31,7 @@ public:
 
     for (currI = pList[currList].begin(); currI != pList[currList].end(); currI++) {
       if (currI->key == key) {
-        Efficiency++;
+        this->Efficiency++;
         res = true;
         break;
       }
@@ -48,18 +48,49 @@ public:
       throw RecordAlreadyExist();
     else {
       pList[currList].push_front(r);
-      DataCount++;
-      Efficiency++;
+      this->DataCount++;
+      this->Efficiency++;
     }
   }
   
   void deleteRecord(TKey key) {
     if (findRecord(key)) {
       pList[currList].erase(currI);
-      DataCount--;
-      Efficiency++;
+      this->DataCount--;
+      this->Efficiency++;
     }
     else return;
+  }
+
+  void resetIterator() override {
+      for (currList = 0; currList < this->size; currList++) {
+          if (!pList[currList].empty()) {
+              currI = pList[currList].begin();
+              return;
+          }
+      }
+      currList = this->size;
+  }
+
+  void goNext() override {
+      if (currList >= this->size) return;
+      ++currI;
+      while (currI == pList[currList].end()) {
+          currList++;
+          if (currList >= size) return;
+          currI = pList[currList].begin();
+      }
+  }
+
+  bool isEnd() override {
+      return currList >= this->size;
+  }
+
+  Record<TKey, TValue> getCurrentRecord() override {
+      if (currList < this->size && currI != pList[currList].end())
+          return *currI;
+      else
+          throw OutOfRange();
   }
 
 };
