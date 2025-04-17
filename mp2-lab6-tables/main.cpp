@@ -1,4 +1,9 @@
-#include<iostream>
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+#include <random>
+#include <algorithm>
+#include <ctime>
 #include<string>
 
 #include"ScanTable.h"
@@ -8,41 +13,54 @@
 
 using namespace std;
 
-void testTable(Table<int, string>& table, const string& name) {
-	cout << "============ Testing " << name << " ============\n";
+double getRandomDouble(double min = 0.0, double max = 1000.0) {
+	static mt19937 rng(static_cast<unsigned int>(time(nullptr)));
+	uniform_real_distribution<double> dist(min, max);
+	return dist(rng);
+}
 
-	try {
-		table.insertRecord({ 1, "one" });
-		table.insertRecord({ 2, "two" });
-		table.insertRecord({ 3, "three" });
-		cout << "Insert OK\n";
-		cout << "Efficiency: " << table.getEfficiency() << endl;
-	}
-	catch (InsertInFullTable e) {
-		cout << "Insert error. " << e.getMessage() << endl;
-	}
+void testTable(Table<int, double>& table, const string& name) {
+    cout << "============ Testing " << name << " ============\n";
 
-	cout << "Find key 2: " << (table.findRecord(2) ? "Found" : "Not found") << endl;
-	cout << "Efficiency: " << table.getEfficiency() << endl;
+    unordered_set<int> usedKeys;
 
-	cout << "Find key 4: " << (table.findRecord(4) ? "Found" : "Not found") << endl;
-	cout << "Efficiency: " << table.getEfficiency() << endl;
+    //generating and inserting 100 unique records
+    for (int key = 1; key <= 100; key++) {
+        Record<int, double> rec{ key, getRandomDouble() };
+        try {
+            table.insertRecord(rec);
+        }
+        catch (...) {
+            cout << "Insert error on key: " << key << endl;
+        }
+    }
 
-	table.deleteRecord(2);
-	cout << "Efficiency: " << table.getEfficiency() << endl;
+    cout << "Efficiency after 100 insertions: " << table.getEfficiency() << endl;
 
-	cout << "Find key 2 after delete: " << (table.findRecord(2) ? "Found" : "Not found") << endl;
+    //deleting keys 1-10
+    for (int key = 1; key <= 10; key++) {
+        table.deleteRecord(key);
+    }
 
-	cout << "Table content:" << endl << table << endl;
-	cout << "Efficiency: " << table.getEfficiency() << endl;
-	cout << endl;
+    cout << "Efficiency after deleting keys 1-10: " << table.getEfficiency() << endl;
+
+    //search for a deleted key (1)
+    bool found = table.findRecord(1);
+    cout << "Find deleted key 1: " << (found ? "Found" : "Not found") << endl;
+    cout << "Efficiency after searching deleted key: " << table.getEfficiency() << endl;
+
+    //search for an existing key (50)
+    found = table.findRecord(50);
+    cout << "Find existing key 50: " << (found ? "Found" : "Not found") << endl;
+    cout << "Efficiency after searching existing key: " << table.getEfficiency() << endl;
+    cout << "===============================================\n\n";
 }
 
 int main() {
-	ScanTable<int, std::string> scanTable(10);
-	SortTable<int, std::string> sortTable(10);
-	ArrayHashTable<int, std::string> arrayHashTable(10, 3);
-	ListHashTable<int, std::string> listHashTable(10);
+	ScanTable<int, double> scanTable(100);
+	SortTable<int, double> sortTable(100);
+	ArrayHashTable<int, double> arrayHashTable(100, 3);
+	ListHashTable<int, double> listHashTable(100);
 
 	testTable(scanTable, "ScanTable");
 	testTable(sortTable, "SortTable");
