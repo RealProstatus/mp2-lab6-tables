@@ -31,8 +31,10 @@ public:
 	int getDataCount() const {
 		return DataCount;
 	}
-	int getEfficiency() const {
-		return Efficiency;
+	int getEfficiency() {
+		int res = Efficiency;
+		Efficiency = 0;
+		return res;
 	}
 	bool isEmpty() const {
 		return DataCount == 0;

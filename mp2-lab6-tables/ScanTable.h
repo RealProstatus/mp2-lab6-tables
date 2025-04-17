@@ -9,9 +9,9 @@ public:
 
 	bool findRecord(TKey key) {
 		for (int i = 0; i < this->DataCount; i++) {
+			this->Efficiency++;
 			if (key == this->ptrRec[i].key) {
 				this->currRec = i;
-				this->Efficiency++;
 				return true;
 			}
 		}

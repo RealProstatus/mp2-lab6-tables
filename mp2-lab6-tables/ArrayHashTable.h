@@ -14,7 +14,7 @@ protected:
 public:
   ArrayHashTable(int size = 32, int step = 5): HashTable<TKey,TValue>(size) {
     //TODO feature: добавить проверку взаимной простоты размера и шага
-
+    currRec = -1;
     free.key = -1;
     del.key = -2;
 

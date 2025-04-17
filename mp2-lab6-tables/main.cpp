@@ -19,10 +19,8 @@ double getRandomDouble(double min = 0.0, double max = 1000.0) {
 	return dist(rng);
 }
 
-void testTable(Table<int, double>& table, const string& name) {
+inline void testTable(Table<int, double>& table, const string& name) {
     cout << "============ Testing " << name << " ============\n";
-
-    unordered_set<int> usedKeys;
 
     //generating and inserting 100 unique records
     for (int key = 1; key <= 100; key++) {
