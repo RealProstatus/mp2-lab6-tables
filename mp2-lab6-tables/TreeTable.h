@@ -19,7 +19,7 @@ protected:
 	TreeNode<TKey, TValue>* pCurr;
 	TreeNode<TKey, TValue>* pPrev;
 
-	std::stack<TreeNode<TKey, TValue>> path;
+	std::stack<TreeNode<TKey, TValue>*> path;
 
 	int pos;
 public:
@@ -135,25 +135,30 @@ public:
 		path = std::stack<TreeNode<TKey, TValue>>();
 		pos = 0;
 
-		while (pCurr->pLeft != nullptr) {
+		while (pCurr != nullptr) {
 			path.push(pCurr);
 			pCurr = pCurr->pLeft;
 		}
-		path.push(pCurr);
+
+		if (!path.empty())
+			pCurr = path.top();
+		else
+			pCurr = nullptr;
 	}
 
 	void goNext() {
-		pCurr = pCurr->pRight;
+		if (path.empty()) {
+			pCurr = nullptr;
+			return;
+		}
+
+		pCurr = path.top();
 		path.pop();
 
-		if (pCurr == nullptr && !(path.empty()))
-			pCurr = path.top();
-		else {
-			while (pCurr->pLeft != nullptr) {
-				path.push(pCurr);
-				pCurr = pCurr->pLeft;
-			}
-			path.push(pCurr);
+		TreeNode<TKey, TValue>* node = pCurr->pRight;
+		while (node != nullptr) {
+			path.push(node);
+			node = node->pLeft;
 		}
 
 		pos++;
