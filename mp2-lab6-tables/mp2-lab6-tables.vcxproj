@@ -136,6 +136,7 @@
     <ClInclude Include="ScanTable.h" />
     <ClInclude Include="SortTable.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="TreeTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
