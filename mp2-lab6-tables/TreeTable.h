@@ -25,9 +25,10 @@ protected:
 public:
 	TreeTable() : Table<TKey, TValue>() {
 		pRoot = pCurr = pPrev = nullptr;
+		pos = 0;
 	}
 
-	bool findRecord(TKey key) {
+	bool findRecord(TKey key) override {
 		pPrev = nullptr;
 		pCurr = pRoot;
 		while (pCurr != nullptr) {
@@ -50,7 +51,7 @@ public:
 		return false;
 	}
 
-	void insertRecord(Record<TKey, TValue> r) {
+	void insertRecord(Record<TKey, TValue> r) override {
 		if (!(this->findRecord(r.key))) {
 			TreeNode<TKey, TValue>* nn = new TreeNode<TKey, TValue>{ r,nullptr,nullptr,0 };
 			if (pCurr == nullptr) {
@@ -58,21 +59,23 @@ public:
 				this->Efficiency++;
 				this->DataCount++;
 			}
-			if (r.key > pCurr->rec.key) {
-				pCurr->pRight = nn;
-				this->Efficiency++;
-				this->DataCount++;
-			}
 			else {
-				pCurr->pLeft = nn;
-				this->Efficiency++;
-				this->DataCount++;
+				if (r.key > pCurr->rec.key) {
+					pCurr->pRight = nn;
+					this->Efficiency++;
+					this->DataCount++;
+				}
+				else {
+					pCurr->pLeft = nn;
+					this->Efficiency++;
+					this->DataCount++;
+				}
 			}
 		}
 		else throw RecordAlreadyExist();
 	}
 
-	void deleteRecord(TKey key) {
+	void deleteRecord(TKey key) override {
 		if (this->findRecord(key)) {
 			TreeNode<TKey, TValue>* pDel = pCurr;
 
@@ -130,9 +133,9 @@ public:
 		}
 	}
 
-	void resetIterator() {
+	void resetIterator() override {
 		pCurr = pRoot;
-		path = std::stack<TreeNode<TKey, TValue>>();
+		path = std::stack<TreeNode<TKey, TValue>*>();
 		pos = 0;
 
 		while (pCurr != nullptr) {
@@ -146,7 +149,7 @@ public:
 			pCurr = nullptr;
 	}
 
-	void goNext() {
+	void goNext() override {
 		pCurr = pCurr->pRight;
 		path.pop();
 
@@ -163,7 +166,15 @@ public:
 		pos++;
 	}
 
-	bool isEnd() {
+	bool isFull() override {
+		return false;
+	}
+
+	Record<TKey, TValue> getCurrentRecord() override {
+		return pCurr->rec;
+	}
+
+	bool isEnd() override {
 		return pos == this->DataCount;
 	}
 };

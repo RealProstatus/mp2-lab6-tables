@@ -10,6 +10,7 @@
 #include"SortTable.h"
 #include"ArrayHashTable.h"
 #include"ListHashTable.h"
+#include"TreeTable.h"
 
 using namespace std;
 
@@ -59,9 +60,11 @@ int main() {
 	SortTable<int, double> sortTable(100);
 	ArrayHashTable<int, double> arrayHashTable(100, 3);
 	ListHashTable<int, double> listHashTable(100);
+    TreeTable<int, double> treetable;
 
 	testTable(scanTable, "ScanTable");
 	testTable(sortTable, "SortTable");
 	testTable(arrayHashTable, "ArrayHashTable");
 	testTable(listHashTable, "ListHashTable");
+    testTable(treetable, "TreeTable");
 }
