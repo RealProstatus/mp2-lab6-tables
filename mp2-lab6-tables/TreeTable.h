@@ -4,12 +4,18 @@
 
 #include"Table.h"
 
+enum BALANCE : int {
+	LEFT = -1,
+	OK,
+	RIGHT
+};
+
 template<class TKey, class TValue>
 struct TreeNode {
 	Record<TKey, TValue> rec;
 	TreeNode* pLeft;
 	TreeNode* pRight;
-	int balance;
+	BALANCE balance = BALANCE::OK;
 };
 
 template<class TKey, class TValue>
@@ -53,7 +59,7 @@ public:
 
 	void insertRecord(Record<TKey, TValue> r) override {
 		if (!(this->findRecord(r.key))) {
-			TreeNode<TKey, TValue>* nn = new TreeNode<TKey, TValue>{ r,nullptr,nullptr,0 };
+			TreeNode<TKey, TValue>* nn = new TreeNode<TKey, TValue>{ r,nullptr,nullptr, BALANCE::OK };
 			if (pCurr == nullptr) {
 				pRoot = nn;
 				this->Efficiency++;

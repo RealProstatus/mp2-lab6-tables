@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="ArrayHashTable.h" />
     <ClInclude Include="ArrayTable.h" />
+    <ClInclude Include="BalanceTreeTable.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="ListHashTable.h" />
