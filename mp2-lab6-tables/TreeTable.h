@@ -140,36 +140,28 @@ public:
 	}
 
 	void resetIterator() override {
-		pCurr = pRoot;
-		path = std::stack<TreeNode<TKey, TValue>*>();
-		pos = 0;
-
-		while (pCurr != nullptr) {
-			path.push(pCurr);
-			pCurr = pCurr->pLeft;
+		// Очистить стек
+		while (!path.empty()) path.pop();
+		// Начать с корня
+		TreeNode<TKey, TValue>* node = pRoot;
+		// Спустить влево до самого низа
+		while (node) {
+			path.push(node);
+			node = node->pLeft;
 		}
-
-		if (!path.empty())
-			pCurr = path.top();
-		else
-			pCurr = nullptr;
 	}
 
 	void goNext() override {
-		pCurr = pCurr->pRight;
+		if (path.empty()) return;
+		// Взять верхний узел
+		TreeNode<TKey, TValue>* node = path.top();
 		path.pop();
-
-		if (pCurr == nullptr && !(path.empty()))
-			pCurr = path.top();
-		else {
-			while (pCurr->pLeft != nullptr) {
-				path.push(pCurr);
-				pCurr = pCurr->pLeft;
-			}
-			path.push(pCurr);
+		// Если у него есть правый сын, опуститься в него и дальше влево
+		node = node->pRight;
+		while (node) {
+			path.push(node);
+			node = node->pLeft;
 		}
-
-		pos++;
 	}
 
 	bool isFull() override {
@@ -177,10 +169,12 @@ public:
 	}
 
 	Record<TKey, TValue> getCurrentRecord() override {
-		return pCurr->rec;
+		if (path.empty())
+			throw OutOfRange();
+		return path.top()->rec;
 	}
 
 	bool isEnd() override {
-		return pos == this->DataCount;
+		return path.empty();
 	}
 };

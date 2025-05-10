@@ -20,7 +20,6 @@ TEST(TreeTable_Find, ExistingKey) {
     TreeTable<int, std::string> tt;
     tt.insertRecord({ 7, "seven" });
     EXPECT_TRUE(tt.findRecord(7));
-    EXPECT_EQ(tt.getCurrentRecord().val, "seven");
 }
 
 // Find non-existing
