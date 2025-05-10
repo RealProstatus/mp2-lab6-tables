@@ -36,7 +36,7 @@ public:
     if (findRecord(r.key))
       throw RecordAlreadyExist();
     else {
-      for (int i = this->DataCount; i < this->currRec; i--) {
+      for (int i = this->DataCount; i > this->currRec; i--) {
         this->ptrRec[i] = this->ptrRec[i - 1];
         this->Efficiency++;
       }
