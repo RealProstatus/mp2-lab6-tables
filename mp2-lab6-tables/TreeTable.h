@@ -6,7 +6,7 @@
 
 enum BALANCE : int {
 	LEFT = -1,
-	OK,
+	BOK,
 	RIGHT
 };
 
@@ -15,7 +15,7 @@ struct TreeNode {
 	Record<TKey, TValue> rec;
 	TreeNode* pLeft;
 	TreeNode* pRight;
-	BALANCE balance = BALANCE::OK;
+	BALANCE balance = BALANCE::BOK;
 };
 
 template<class TKey, class TValue>
@@ -59,7 +59,7 @@ public:
 
 	void insertRecord(Record<TKey, TValue> r) override {
 		if (!(this->findRecord(r.key))) {
-			TreeNode<TKey, TValue>* nn = new TreeNode<TKey, TValue>{ r,nullptr,nullptr, BALANCE::OK };
+			TreeNode<TKey, TValue>* nn = new TreeNode<TKey, TValue>{ r,nullptr,nullptr, BALANCE::BOK };
 			if (pCurr == nullptr) {
 				pRoot = nn;
 				this->Efficiency++;

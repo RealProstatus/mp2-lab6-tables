@@ -29,12 +29,16 @@ public:
 	}
 
 	void deleteRecord(TKey key) override {
-		if (pRoot == nullptr) {
+		if (this->pRoot == nullptr) {
 			//TODO: добавить метод isEmpty в родительский класс
 			throw DeleteFromEmptyTable();
 		}
-		Del_Rec(pRoot, key);
+		Del_Rec(this->pRoot, key);
 	}
+
+    ~AVLTreeTable() {
+        this->DeleteRecord(this->pRoot);
+    }
 
 protected:
 
@@ -44,7 +48,7 @@ protected:
 		int res = HEIGHT::OK;
 
 		if (pNode == nullptr) {
-			pNode = new TreeNode<TKey, TValue>{ rec, nullptr,nullptr, BALANCE::OK };
+			pNode = new TreeNode<TKey, TValue>{ rec, nullptr,nullptr, BALANCE::BOK };
 			res = HEIGHT::INC;
 			this->DataCount++;
 		}
@@ -70,10 +74,10 @@ protected:
         if (mode == MODE::INSERT) {
             // Логика для вставки
             if (pNode->balance == BALANCE::RIGHT) {
-                pNode->balance = BALANCE::OK;
+                pNode->balance = BALANCE::BOK;
                 res = HEIGHT::OK;
             }
-            else if (pNode->balance == BALANCE::OK) {
+            else if (pNode->balance == BALANCE::BOK) {
                 pNode->balance = BALANCE::LEFT;
                 res = HEIGHT::INC;
             }
@@ -84,8 +88,8 @@ protected:
                     pNode->pLeft = p1->pRight;
                     p1->pRight = pNode;
                     pNode = p1;
-                    pNode->balance = BALANCE::OK;
-                    pNode->pRight->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
+                    pNode->pRight->balance = BALANCE::BOK;
                     res = HEIGHT::OK;
                 }
                 else {
@@ -99,18 +103,18 @@ protected:
                     // Корректировка балансов
                     if (p2->balance == BALANCE::LEFT) {
                         pNode->balance = BALANCE::RIGHT;
-                        p1->balance = BALANCE::OK;
+                        p1->balance = BALANCE::BOK;
                     }
                     else if (p2->balance == BALANCE::RIGHT) {
-                        pNode->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
                         p1->balance = BALANCE::LEFT;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                     }
                     pNode = p2;
-                    pNode->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
                     res = HEIGHT::OK;
                 }
             }
@@ -118,10 +122,10 @@ protected:
         else if (mode == MODE::DELETE) {
             // Логика для удаления
             if (pNode->balance == BALANCE::RIGHT) {
-                pNode->balance = BALANCE::OK;
+                pNode->balance = BALANCE::BOK;
                 res = HEIGHT::DEC;
             }
-            else if (pNode->balance == BALANCE::OK) {
+            else if (pNode->balance == BALANCE::BOK) {
                 pNode->balance = BALANCE::LEFT;
                 res = HEIGHT::OK;
             }
@@ -131,14 +135,14 @@ protected:
                     // LL-поворот
                     pNode->pLeft = p1->pRight;
                     p1->pRight = pNode;
-                    if (p1->balance == BALANCE::OK) {
+                    if (p1->balance == BALANCE::BOK) {
                         pNode->balance = BALANCE::LEFT;
                         p1->balance = BALANCE::RIGHT;
                         res = HEIGHT::OK;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                         res = HEIGHT::DEC;
                     }
                     pNode = p1;
@@ -154,18 +158,18 @@ protected:
                     // Корректировка балансов
                     if (p2->balance == BALANCE::LEFT) {
                         pNode->balance = BALANCE::RIGHT;
-                        p1->balance = BALANCE::OK;
+                        p1->balance = BALANCE::BOK;
                     }
                     else if (p2->balance == BALANCE::RIGHT) {
-                        pNode->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
                         p1->balance = BALANCE::LEFT;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                     }
                     pNode = p2;
-                    pNode->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
                     res = HEIGHT::DEC;
                 }
             }
@@ -179,10 +183,10 @@ protected:
         if (mode == MODE::INSERT) {
             // Логика для вставки (симметрично BalTreeLeft)
             if (pNode->balance == BALANCE::LEFT) {
-                pNode->balance = BALANCE::OK;
+                pNode->balance = BALANCE::BOK;
                 res = HEIGHT::OK;
             }
-            else if (pNode->balance == BALANCE::OK) {
+            else if (pNode->balance == BALANCE::BOK) {
                 pNode->balance = BALANCE::RIGHT;
                 res = HEIGHT::INC;
             }
@@ -193,8 +197,8 @@ protected:
                     pNode->pRight = p1->pLeft;
                     p1->pLeft = pNode;
                     pNode = p1;
-                    pNode->balance = BALANCE::OK;
-                    pNode->pLeft->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
+                    pNode->pLeft->balance = BALANCE::BOK;
                     res = HEIGHT::OK;
                 }
                 else {
@@ -208,18 +212,18 @@ protected:
                     // Корректировка балансов
                     if (p2->balance == BALANCE::RIGHT) {
                         pNode->balance = BALANCE::LEFT;
-                        p1->balance = BALANCE::OK;
+                        p1->balance = BALANCE::BOK;
                     }
                     else if (p2->balance == BALANCE::LEFT) {
-                        pNode->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
                         p1->balance = BALANCE::RIGHT;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                     }
                     pNode = p2;
-                    pNode->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
                     res = HEIGHT::OK;
                 }
             }
@@ -227,10 +231,10 @@ protected:
         else if (mode == MODE::DELETE) {
             // Логика для удаления (симметрично BalTreeLeft)
             if (pNode->balance == BALANCE::LEFT) {
-                pNode->balance = BALANCE::OK;
+                pNode->balance = BALANCE::BOK;
                 res = HEIGHT::DEC;
             }
-            else if (pNode->balance == BALANCE::OK) {
+            else if (pNode->balance == BALANCE::BOK) {
                 pNode->balance = BALANCE::RIGHT;
                 res = HEIGHT::OK;
             }
@@ -240,14 +244,14 @@ protected:
                     // RR-поворот
                     pNode->pRight = p1->pLeft;
                     p1->pLeft = pNode;
-                    if (p1->balance == BALANCE::OK) {
+                    if (p1->balance == BALANCE::BOK) {
                         pNode->balance = BALANCE::RIGHT;
                         p1->balance = BALANCE::LEFT;
                         res = HEIGHT::OK;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                         res = HEIGHT::DEC;
                     }
                     pNode = p1;
@@ -263,18 +267,18 @@ protected:
                     // Корректировка балансов
                     if (p2->balance == BALANCE::RIGHT) {
                         pNode->balance = BALANCE::LEFT;
-                        p1->balance = BALANCE::OK;
+                        p1->balance = BALANCE::BOK;
                     }
                     else if (p2->balance == BALANCE::LEFT) {
-                        pNode->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
                         p1->balance = BALANCE::RIGHT;
                     }
                     else {
-                        pNode->balance = BALANCE::OK;
-                        p1->balance = BALANCE::OK;
+                        pNode->balance = BALANCE::BOK;
+                        p1->balance = BALANCE::BOK;
                     }
                     pNode = p2;
-                    pNode->balance = BALANCE::OK;
+                    pNode->balance = BALANCE::BOK;
                     res = HEIGHT::DEC;
                 }
             }
@@ -314,7 +318,7 @@ protected:
 				pNode->rec = pNode->pRight->rec;
 				delete pNode->pRight;
 				pNode->pRight = nullptr;
-				pNode->balance = BALANCE::OK;
+				pNode->balance = BALANCE::BOK;
 
 				res = HEIGHT::DEC;
 			}
@@ -323,7 +327,7 @@ protected:
 				pNode->rec = pNode->pLeft->rec;
 				delete pNode->pLeft;
 				pNode->pLeft = nullptr;
-				pNode->balance = BALANCE::OK;
+				pNode->balance = BALANCE::BOK;
 
 				res = HEIGHT::DEC;
 			}
@@ -381,7 +385,4 @@ protected:
 		delete pNode;
 	}
 
-	~AVLTreeTable() {
-		this->DeleteRecord(pRoot);
-	}
 };

@@ -11,6 +11,7 @@
 #include"ArrayHashTable.h"
 #include"ListHashTable.h"
 #include"TreeTable.h"
+#include"BalanceTreeTable.h"
 
 using namespace std;
 
@@ -61,10 +62,12 @@ int main() {
 	ArrayHashTable<int, double> arrayHashTable(100, 3);
 	ListHashTable<int, double> listHashTable(100);
     TreeTable<int, double> treetable;
+    AVLTreeTable<int, double> avlTreeTable;
 
 	testTable(scanTable, "ScanTable");
 	testTable(sortTable, "SortTable");
 	testTable(arrayHashTable, "ArrayHashTable");
 	testTable(listHashTable, "ListHashTable");
     testTable(treetable, "TreeTable");
+    testTable(avlTreeTable, "AVLTreeTable");
 }
