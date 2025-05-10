@@ -4,17 +4,18 @@
 #include"TreeTable.h"
 
 enum HEIGHT : int  {
+	DEC = -1,
 	OK,
-	INC,
-	DEC
+	INC
 };
 
-enum Mode {
-
+enum MODE {
+	INSERT,
+	DELETE
 };
 
 template<class TKey, class TValue>
-class BalanceTreeTable : public TreeTable<TKey, TValue> {
+class AVLTreeTable : public TreeTable<TKey, TValue> {
 public:
 	void insertRecord(Record<TKey, TValue> r) override {
 		if (this->findRecord(r.key)) {
@@ -26,10 +27,17 @@ public:
 	}
 
 	void deleteRecord(TKey key) override {
-
+		if (pRoot == nullptr) {
+			//TODO: добавить метод isEmpty в родительский класс
+			throw - 2531;
+		}
+		Del_Rec(pRoot, key);
 	}
 
 protected:
+
+	//Методы для вставки
+
 	int insBalTree(TreeNode<TKey, TValue>*& pNode, Record<TKey, TValue> rec) {
 		int res = HEIGHT::OK;
 
@@ -42,19 +50,19 @@ protected:
 			if (pNode->rec.key > rec.key) {
 				int tmp = this->insBalTree(pNode->pLeft, rec);
 				if (tmp == HEIGHT::INC)
-					res = this->BalTreeLeft(pNode);
+					res = this->BalTreeLeft(pNode, MODE::INSERT);
 			}
 			else {
 				int tmp = this->insBalTree(pNode->pRight, rec);
 				if (tmp == HEIGHT::INC)
-					res = this->BalTreeRight(pNode);
+					res = this->BalTreeRight(pNode, MODE::INSERT);
 			}
 		}
 
 		return res;
 	}
 
-	int BalTreeLeft(TreeNode<TKey, TValue>*& pNode) {
+	int BalTreeLeft(TreeNode<TKey, TValue>*& pNode, MODE mode) {
 		int res = HEIGHT::OK;
 		//если был перевес справа
 		if (pNode->balance == BALANCE::RIGHT) {
@@ -105,7 +113,7 @@ protected:
 		return res;
 	}
 
-	int BalTreeRight(TreeNode<TKey, TValue>*& pNode) {
+	int BalTreeRight(TreeNode<TKey, TValue>*& pNode, MODE mode) {
 		//случай, симметричный с BalTreeLeft
 		int res = HEIGHT::OK;
 
@@ -155,5 +163,108 @@ protected:
 		}
 
 		return res;
+	}
+
+	//методы для удаления
+
+	int Del_Rec(TreeNode<TKey, TValue>*& pNode, TKey key) {
+		this->Efficiency++;
+		
+		int res = HEIGHT::OK;
+		if (pNode == nullptr)
+			return res;
+		else if (pNode->rec.key < key) {
+			int tmp = Del_Rec(pNode->pRight, key);
+			if (tmp == HEIGHT::DEC)
+				res = BalTreeLeft(pNode, MODE::DELETE);
+		}
+		else if (pNode->rec.key > key) {
+			int tmp = Del_Rec(pNode->pLeft, key);
+			if (tmp == HEIGHT::DEC)
+				res = BalTreeRight(pNode, MODE::DELETE);
+		}
+		else {
+			this->DataCount--;
+
+			//нет потомков
+			if (pNode->pLeft == nullptr && pNode->pRight == nullptr) { 
+				delete pNode;
+				pNode = nullptr;
+				res = HEIGHT::DEC;
+			}
+			//один потомок справа
+			else if (pNode->pLeft == nulptr) {
+				pNode->rec = pNode->pRight->rec;
+				delete pNode->pRight;
+				pNode->pRight = nullptr;
+				pNode->balance = BALANCE::OK;
+
+				res = HEIGHT::DEC;
+			}
+			//один потомок слева
+			else if (pNode->pRight == nullptr) {
+				pNode->rec = pNode->pLeft->rec;
+				delete pNode->pLeft;
+				pNode->pLeft = nullptr;
+				pNode->balance = BALANCE::OK;
+
+				res = HEIGHT::DEC;
+			}
+			//оба потомка
+			else {
+				TreeNode<TKey, TValue>* left = pNode->pLeft;
+				TreeNode<TKey, TValue>* right = pNode->pRight;
+				TreeNode<TKey, TValue>* min = findMin(right);
+
+				res = removeMin(right);
+				pNode->rec = min->rec;
+				delete min;
+				pNode->pLeft = left;
+				pNode->pRight = right;
+				if (res != HEIGHT::OK)
+					BalTreeLeft(pNode, MODE::DELETE);
+			}
+		}
+		return res;
+	}
+
+	TreeNode<TKey, TValue>* findMin(TreeNode<TKey, TValue>* pNode) {
+		while (pNode->pLeft != nullptr)
+			pNode = pNode->pLeft;
+		return pNode;
+	}
+
+	int excludeMin(TreeNode<TKey, TValue>*& pNode) {
+		this->Efficiency++;
+
+		int res = HEIGHT::OK;
+		//мы на исключаемом узле
+		if (pNode->pLeft == nullptr) {
+			pNode = pNode->pRight;
+			res = HEIGHT::DEC;
+		}
+		//иначе 
+		else {
+			res = excludeMin(pNode->pLeft);
+			if (res != HEIGHT::OK)
+				res = BalTreeRight(pNode->pRight, MODE::DELETE);
+		}
+
+		return res;
+	}
+
+	//
+
+	void DeleteRecord(TreeNode<TKey, TValue>* pNode) {
+		if (pNode == nullptr)
+			return;
+		this->DeleteRecord(pNode->pRight);
+		this->DeleteRecord(pNode->pLeft);
+
+		delete pNode;
+	}
+
+	~AVLTreeTable() {
+		this->DeleteRecord(pRoot);
 	}
 };
