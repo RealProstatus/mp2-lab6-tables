@@ -26,10 +26,22 @@
     <ClCompile Include="test_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_tlist.cpp">
+    <ClCompile Include="test_scantable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_polinom.cpp">
+    <ClCompile Include="test_sorttable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_listhashtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_arrayhashtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_treetable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_avltreetable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

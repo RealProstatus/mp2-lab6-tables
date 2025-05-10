@@ -132,9 +132,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gtest-all.cc" />
+    <ClCompile Include="test_arrayhashtable.cpp" />
+    <ClCompile Include="test_avltreetable.cpp" />
+    <ClCompile Include="test_listhashtable.cpp" />
     <ClCompile Include="test_main.cpp" />
-    <ClCompile Include="test_polinom.cpp" />
-    <ClCompile Include="test_tlist.cpp" />
+    <ClCompile Include="test_scantable.cpp" />
+    <ClCompile Include="test_sorttable.cpp" />
+    <ClCompile Include="test_treetable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mp2-lab4-queue\mp2-lab4-queue.vcxproj">

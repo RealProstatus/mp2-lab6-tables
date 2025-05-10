@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp2-lab6-tables", "mp2-lab6-tables\mp2-lab6-tables.vcxproj", "{879AF43E-6A1C-4BDF-BB79-3D5B4BB1455C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTests", "GoogleTest\TestStack.vcxproj", "{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{879AF43E-6A1C-4BDF-BB79-3D5B4BB1455C}.Release|x64.Build.0 = Release|x64
 		{879AF43E-6A1C-4BDF-BB79-3D5B4BB1455C}.Release|x86.ActiveCfg = Release|Win32
 		{879AF43E-6A1C-4BDF-BB79-3D5B4BB1455C}.Release|x86.Build.0 = Release|Win32
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Debug|x64.ActiveCfg = Debug|x64
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Debug|x64.Build.0 = Debug|x64
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Debug|x86.ActiveCfg = Debug|Win32
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Debug|x86.Build.0 = Debug|Win32
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Release|x64.ActiveCfg = Release|x64
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Release|x64.Build.0 = Release|x64
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Release|x86.ActiveCfg = Release|Win32
+		{D6FC6BAF-50BA-4AE2-9795-60A10ECD13BE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
