@@ -34,3 +34,10 @@ public:
 		return "You tried to insert in full table";
 	}
 };
+
+class DeleteFromEmptyTable : public Exceptions {
+public:
+	std::string getMessage() {
+		return "You tried delete from empty table";
+	}
+};

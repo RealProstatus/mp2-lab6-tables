@@ -17,6 +17,8 @@ enum MODE {
 template<class TKey, class TValue>
 class AVLTreeTable : public TreeTable<TKey, TValue> {
 public:
+    AVLTreeTable() : TreeTable<TKey,TValue>() { }
+
 	void insertRecord(Record<TKey, TValue> r) override {
 		if (this->findRecord(r.key)) {
 			throw RecordAlreadyExist();
@@ -29,7 +31,7 @@ public:
 	void deleteRecord(TKey key) override {
 		if (pRoot == nullptr) {
 			//TODO: добавить метод isEmpty в родительский класс
-			throw - 2531;
+			throw DeleteFromEmptyTable();
 		}
 		Del_Rec(pRoot, key);
 	}
@@ -308,7 +310,7 @@ protected:
 				res = HEIGHT::DEC;
 			}
 			//один потомок справа
-			else if (pNode->pLeft == nulptr) {
+			else if (pNode->pLeft == nullptr) {
 				pNode->rec = pNode->pRight->rec;
 				delete pNode->pRight;
 				pNode->pRight = nullptr;
@@ -331,7 +333,7 @@ protected:
 				TreeNode<TKey, TValue>* right = pNode->pRight;
 				TreeNode<TKey, TValue>* min = findMin(right);
 
-				res = removeMin(right);
+				res = excludeMin(right);
 				pNode->rec = min->rec;
 				delete min;
 				pNode->pLeft = left;
@@ -361,7 +363,8 @@ protected:
 		else {
 			res = excludeMin(pNode->pLeft);
 			if (res != HEIGHT::OK)
-				res = BalTreeRight(pNode->pRight, MODE::DELETE);
+                //мб надо вызывать BalTreeRight от pNode.pright
+				res = BalTreeRight(pNode, MODE::DELETE);
 		}
 
 		return res;
