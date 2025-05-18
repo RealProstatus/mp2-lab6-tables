@@ -1,34 +1,45 @@
 #pragma once
 
-#include"../mp2-lab6-tables/SortTable.h"
-#include"../mp2-lab6-tables/ScanTable.h"
-#include"../mp2-lab6-tables/ListHashTable.h"
-#include"../mp2-lab6-tables/BalanceTreeTable.h"
-#include"../mp2-lab6-tables/ArrayHashTable.h"
-#include"../mp2-lab6-tables/TreeTable.h"
+#include "../mp2-lab6-tables/SortTable.h"
+#include "../mp2-lab6-tables/ScanTable.h"
+#include "../mp2-lab6-tables/ListHashTable.h"
+#include "../mp2-lab6-tables/BalanceTreeTable.h"
+#include "../mp2-lab6-tables/ArrayHashTable.h"
+#include "../mp2-lab6-tables/TreeTable.h"
 
-#include<vector>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 
 class Model {
-  Table<int, double>* maintable;
-  std::vector<Record<int, double>> recordsVec;
+    enum class TableType { Scan, Sort, ListHash, ArrayHash, Tree, AVL };
+    Table<int, double>* maintable;
+    TableType currentType;
+    std::vector<Record<int, double>> recordsVec;
 
 public:
-  Model();
+    Model();
+    ~Model();
 
-  void initSortTable();
-  void initScanTable();
-  void initListHashTable();
-  void initArrayHashTable();
-  void initTreeTable();
-  void initAVLTreeTable();
+    void initSortTable();
+    void initScanTable();
+    void initListHashTable();
+    void initArrayHashTable();
+    void initTreeTable();
+    void initAVLTreeTable();
 
-  void generateRecords(int amount, int maxKey);
-  void deleteAllrecords();
+    void generateRecords(int amount, int maxKey);
+    void deleteAllrecords();
 
-  bool findRecord(int key);
-  void deleteRecord(int key);
-  void insertRecord(Record<int, double> rec);
+    bool findRecord(int key);
+    void deleteRecord(int key);
+    void insertRecord(const Record<int, double>& rec);
 
-  int getEfficiency();
+    int getEfficiency();
+
+    // Iteration
+    void resetIterator();
+    bool isEnd();
+    void goNext();
+    Record<int, double> getCurrentRecord();
 };
