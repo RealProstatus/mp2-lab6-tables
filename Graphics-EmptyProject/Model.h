@@ -37,7 +37,6 @@ public:
 
     int getEfficiency();
 
-    // Iteration
     void resetIterator();
     bool isEnd();
     void goNext();
