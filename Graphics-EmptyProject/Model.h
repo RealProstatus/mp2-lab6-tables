@@ -43,6 +43,8 @@ public:
     void goNext();
     Record<int, double> getCurrentRecord();
 
+    std::string getTreeAsString();
+
     const std::vector<Record<int, double>>& getRecordsVec() const;
     std::vector<Record<int, double>> getAllRecords();
 

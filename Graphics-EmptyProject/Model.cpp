@@ -129,3 +129,15 @@ std::vector<Record<int, double>> Model::getAllRecords() {
     return result;
 }
 
+std::string Model::getTreeAsString() {
+    if (!maintable) return "";
+
+    if (auto t = dynamic_cast<TreeTable<int, double>*>(maintable)) {
+        return t->getTreeAsString();
+    }
+    if (auto a = dynamic_cast<AVLTreeTable<int, double>*>(maintable)) {
+        return a->getTreeAsString();
+    }
+    return "";
+}
+

@@ -1,6 +1,8 @@
 #pragma once
 
 #include<stack>
+#include<string>
+#include<sstream>
 
 #include"Table.h"
 
@@ -196,5 +198,11 @@ public:
 	void printTree(std::ostream& os) {
 		level = 0;
 		this->printRec(os, this->pRoot);
+	}
+
+	std::string getTreeAsString() {
+		std::stringstream ss;
+		this->printTree(ss);
+		return ss.str();
 	}
 };

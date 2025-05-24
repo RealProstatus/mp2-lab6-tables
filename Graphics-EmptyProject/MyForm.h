@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Model.h"
+#include <msclr/marshal_cppstd.h>
 
 
 namespace CppWinForm1 {
@@ -26,6 +27,11 @@ namespace CppWinForm1 {
 			//TODO: Add the constructor code here
 			//
 		}
+	private: System::Windows::Forms::RichTextBox^ rtbTree;
+	public:
+
+	public:
+	private: System::Windows::Forms::Button^ btnPrintTree;
 
 	protected:
 
@@ -108,6 +114,8 @@ namespace CppWinForm1 {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->tbSearchResult = (gcnew System::Windows::Forms::TextBox());
 			this->tbKey = (gcnew System::Windows::Forms::TextBox());
+			this->rtbTree = (gcnew System::Windows::Forms::RichTextBox());
+			this->btnPrintTree = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgv))->BeginInit();
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
@@ -375,11 +383,31 @@ namespace CppWinForm1 {
 			this->tbKey->Size = System::Drawing::Size(79, 20);
 			this->tbKey->TabIndex = 0;
 			// 
+			// rtbTree
+			// 
+			this->rtbTree->Location = System::Drawing::Point(13, 427);
+			this->rtbTree->Name = L"rtbTree";
+			this->rtbTree->Size = System::Drawing::Size(660, 380);
+			this->rtbTree->TabIndex = 14;
+			this->rtbTree->Text = L"";
+			// 
+			// btnPrintTree
+			// 
+			this->btnPrintTree->Location = System::Drawing::Point(573, 372);
+			this->btnPrintTree->Name = L"btnPrintTree";
+			this->btnPrintTree->Size = System::Drawing::Size(100, 41);
+			this->btnPrintTree->TabIndex = 15;
+			this->btnPrintTree->Text = L"Print tree";
+			this->btnPrintTree->UseVisualStyleBackColor = true;
+			this->btnPrintTree->Click += gcnew System::EventHandler(this, &MyForm::btnPrintTree_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(687, 438);
+			this->ClientSize = System::Drawing::Size(685, 819);
+			this->Controls->Add(this->btnPrintTree);
+			this->Controls->Add(this->rtbTree);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->lblEff);
@@ -447,7 +475,24 @@ private: System::Void updDataGridView() {
 	for (auto& rec : records) {
 		dgv->Rows->Add(rec.key, rec.val);
 	}
+
+	PrintTreeToRichText();
 }
+
+private: System::Void btnPrintTree_Click(System::Object^ sender, System::EventArgs^ e) {
+	PrintTreeToRichText();
+}
+
+	   private: System::Void PrintTreeToRichText() {
+		   // Получаем std::string
+		   std::string tree = model->getTreeAsString();
+		   // Конвертим в System::String^
+		   msclr::interop::marshal_context ctx;
+		   String^ managed = ctx.marshal_as<String^>(tree);
+		   // Выводим
+		   rtbTree->Clear();
+		   rtbTree->AppendText(managed);
+	   }
 
 };
 }
