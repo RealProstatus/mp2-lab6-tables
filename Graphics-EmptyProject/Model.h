@@ -8,6 +8,7 @@
 #include "../mp2-lab6-tables/TreeTable.h"
 
 #include <vector>
+#include <unordered_set>
 #include <cstdlib>
 #include <ctime>
 
@@ -21,10 +22,10 @@ public:
     Model();
     ~Model();
 
-    void initSortTable();
-    void initScanTable();
-    void initListHashTable();
-    void initArrayHashTable();
+    void initSortTable(int size);
+    void initScanTable(int size);
+    void initListHashTable(int size);
+    void initArrayHashTable(int size);
     void initTreeTable();
     void initAVLTreeTable();
 
@@ -41,4 +42,6 @@ public:
     bool isEnd();
     void goNext();
     Record<int, double> getCurrentRecord();
+
+    const std::vector<Record<int, double>>& getRecordsVec() const;
 };

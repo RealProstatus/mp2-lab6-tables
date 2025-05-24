@@ -9,27 +9,27 @@ Model::~Model() {
     delete maintable;
 }
 
-void Model::initSortTable() {
+void Model::initSortTable(int size) {
     delete maintable;
-    maintable = new SortTable<int, double>();
+    maintable = new SortTable<int, double>(size);
     currentType = TableType::Sort;
 }
 
-void Model::initScanTable() {
+void Model::initScanTable(int size) {
     delete maintable;
-    maintable = new ScanTable<int, double>();
+    maintable = new ScanTable<int, double>(size);
     currentType = TableType::Scan;
 }
 
-void Model::initListHashTable() {
+void Model::initListHashTable(int size) {
     delete maintable;
-    maintable = new ListHashTable<int, double>();
+    maintable = new ListHashTable<int, double>(size);
     currentType = TableType::ListHash;
 }
 
-void Model::initArrayHashTable() {
+void Model::initArrayHashTable(int size) {
     delete maintable;
-    maintable = new ArrayHashTable<int, double>();
+    maintable = new ArrayHashTable<int, double>(size);
     currentType = TableType::ArrayHash;
 }
 
@@ -47,31 +47,35 @@ void Model::initAVLTreeTable() {
 
 void Model::deleteAllrecords() {
     switch (currentType) {
-    case TableType::Scan:       initScanTable();    break;
-    case TableType::Sort:       initSortTable();    break;
-    case TableType::ListHash:   initListHashTable(); break;
-    case TableType::ArrayHash:  initArrayHashTable(); break;
-    case TableType::Tree:       initTreeTable();    break;
-    case TableType::AVL:        initAVLTreeTable(); break;
+    case TableType::Scan:       initScanTable(recordsVec.size());        break;
+    case TableType::Sort:       initSortTable(recordsVec.size());        break;
+    case TableType::ListHash:   initListHashTable(recordsVec.size());    break;
+    case TableType::ArrayHash:  initArrayHashTable(recordsVec.size());   break;
+    case TableType::Tree:       initTreeTable();                         break;
+    case TableType::AVL:        initAVLTreeTable();                      break;
     }
     recordsVec.clear();
 }
 
 void Model::generateRecords(int amount, int maxKey) {
     recordsVec.clear();
+    if (!maintable)
+        return;
+
+    std::unordered_set<int> usedKeys;
     int inserted = 0;
+
     while (inserted < amount) {
         int key = std::rand() % (maxKey + 1);
+        if (usedKeys.find(key) != usedKeys.end())
+            continue; // такой ключ уже есть, пропускаем
+
         double val = static_cast<double>(std::rand()) / RAND_MAX;
         Record<int, double> rec{ key, val };
-        try {
-            maintable->insertRecord(rec);
-            recordsVec.push_back(rec);
-            ++inserted;
-        }
-        catch (...) {
-            // duplicate key, skip
-        }
+        maintable->insertRecord(rec);
+        recordsVec.push_back(rec);
+        usedKeys.insert(key);
+        ++inserted;
     }
 }
 
@@ -106,4 +110,8 @@ void Model::goNext() {
 
 Record<int, double> Model::getCurrentRecord() {
     return maintable->getCurrentRecord();
+}
+
+const std::vector<Record<int, double>>& Model::getRecordsVec() const {
+    return recordsVec;
 }
