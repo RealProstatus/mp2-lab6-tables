@@ -137,6 +137,15 @@ TEST(AVL_Stress, BalanceAfterManyOps) {
     std::vector<int> expected;
     for (int i = 1; i <= 100; i += 2) expected.push_back(i);
     EXPECT_EQ(out, expected);
-    // Проверим эффективность не нулевая (дерево всё же работало)
+    // Проверим эффективность не нулевая 
     EXPECT_GT(avl.getEfficiency(), 0);
+}
+
+TEST(AVLTree_log, LogDifficultTest) {
+    AVLTreeTable<int, std::string> avl;
+    for (int i = 1; i <= 100; i++) avl.insertRecord({ i,std::to_string(i) });
+
+    EXPECT_TRUE(avl.findRecord(75));
+    avl.getEfficiency();
+    EXPECT_TRUE(avl.getEfficiency() <= 7);
 }
