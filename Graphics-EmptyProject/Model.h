@@ -44,4 +44,6 @@ public:
     Record<int, double> getCurrentRecord();
 
     const std::vector<Record<int, double>>& getRecordsVec() const;
+    std::vector<Record<int, double>> getAllRecords();
+
 };

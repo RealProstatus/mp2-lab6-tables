@@ -412,20 +412,42 @@ private: System::Void btnCreate_Click(System::Object^ sender, System::EventArgs^
 
 	model->generateRecords(amount, maxKey);
 
-	// Обновляем DataGridView
-	dgv->Rows->Clear();
-	for (auto& rec : model->getRecordsVec())
-	{
-		dgv->Rows->Add(rec.key, rec.val);
-	}
+	updDataGridView();
 
 	lblEff->Text = "Efficiency: " + model->getEfficiency().ToString();
 }
 private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+	int key = Convert::ToInt32(tbKey->Text);
+	double value = (rand() % 1000) / 10.0;
+
+	model->insertRecord(Record<int, double>{key, value});
+
+	updDataGridView();
+	lblEff->Text = "Efficiency: " + model->getEfficiency().ToString();
 }
 private: System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+	int key = Convert::ToInt32(tbKey->Text);
+	bool found = model->findRecord(key);
+
+	tbSearchResult->Text = found ? "Found" : "Not Found";
+	lblEff->Text = "Efficiency: " + model->getEfficiency().ToString();
 }
 private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+	int key = Convert::ToInt32(tbKey->Text);
+	model->deleteRecord(key);
+
+	updDataGridView();
+
+	lblEff->Text = "Efficiency: " + model->getEfficiency().ToString();
 }
+private: System::Void updDataGridView() {
+	dgv->Rows->Clear();
+
+	auto records = model->getAllRecords();
+	for (auto& rec : records) {
+		dgv->Rows->Add(rec.key, rec.val);
+	}
+}
+
 };
 }

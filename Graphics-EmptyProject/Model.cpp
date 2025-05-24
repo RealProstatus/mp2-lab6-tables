@@ -115,3 +115,17 @@ Record<int, double> Model::getCurrentRecord() {
 const std::vector<Record<int, double>>& Model::getRecordsVec() const {
     return recordsVec;
 }
+
+std::vector<Record<int, double>> Model::getAllRecords() {
+    std::vector<Record<int, double>> result;
+    if (!maintable)
+        return result;
+
+    maintable->resetIterator();
+    while (!maintable->isEnd()) {
+        result.push_back(maintable->getCurrentRecord());
+        maintable->goNext();
+    }
+    return result;
+}
+
