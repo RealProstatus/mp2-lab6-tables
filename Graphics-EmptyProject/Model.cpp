@@ -66,6 +66,9 @@ void Model::generateRecords(int amount, int maxKey) {
     int inserted = 0;
 
     while (inserted < amount) {
+        if (inserted == maxKey + 1)
+            break;
+
         int key = std::rand() % (maxKey + 1);
         if (usedKeys.find(key) != usedKeys.end())
             continue; // такой ключ уже есть, пропускаем
