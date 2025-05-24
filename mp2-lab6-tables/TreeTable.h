@@ -27,11 +27,26 @@ protected:
 
 	std::stack<TreeNode<TKey, TValue>*> path;
 
-	int pos;
+	int pos, level;
+
+	void printRec(std::ostream& out, TreeNode<TKey, TValue>* p) {
+		if (p == nullptr) {
+			return;
+		}
+
+		for (int i = 0; i < level; i++) {
+			out << "  ";
+		}
+		out << p->rec.key << '\n';
+		level++;
+		this->printRec(out, p->pRight);
+		this->printRec(out, p->pLeft);
+		level--;
+	}
 public:
 	TreeTable() : Table<TKey, TValue>() {
 		pRoot = pCurr = pPrev = nullptr;
-		pos = 0;
+		pos = level = 0;
 	}
 
 	bool findRecord(TKey key) override {
@@ -156,7 +171,7 @@ public:
 		// ¬з€ть верхний узел
 		TreeNode<TKey, TValue>* node = path.top();
 		path.pop();
-		// ≈сли у него есть правый сын, опуститьс€ в него и дальше влево
+		// ≈сли у него есть правый потомок, опуститьс€ в него и дальше влево
 		node = node->pRight;
 		while (node) {
 			path.push(node);
@@ -176,5 +191,10 @@ public:
 
 	bool isEnd() override {
 		return path.empty();
+	}
+
+	void printTree(std::ostream& os) {
+		level = 0;
+		this->printRec(os, this->pRoot);
 	}
 };

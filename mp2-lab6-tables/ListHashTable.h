@@ -30,8 +30,8 @@ public:
     bool res = false;
 
     for (currI = pList[currList].begin(); currI != pList[currList].end(); currI++) {
+      this->Efficiency++;
       if (currI->key == key) {
-        this->Efficiency++;
         res = true;
         break;
       }
